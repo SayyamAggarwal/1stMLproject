@@ -47,12 +47,78 @@ class ModelTrainer:
                 'XGBRegressor': XGBRegressor(),
                 'CatBoostRegressor': CatBoostRegressor(verbose=0)
             }
+            params = {
+
+                'LinearRegression': {},  # No major hyperparameters to tune
+
+                'Ridge': {
+                    'alpha': [0.01, 0.1, 1.0, 10.0, 100.0],
+                    'solver': ['auto', 'svd', 'cholesky', 'lsqr', 'sag']
+                },
+
+                'Lasso': {
+                    'alpha': [0.001, 0.01, 0.1, 1.0, 10.0],
+                    'selection': ['cyclic', 'random']
+                },
+
+                'KNeighborsRegressor': {
+                    'n_neighbors': [3, 5, 7, 10],
+                    'weights': ['uniform', 'distance'],
+                    'metric': ['euclidean', 'manhattan', 'minkowski']
+                },
+
+                'DecisionTreeRegressor': {
+                    'criterion': ['squared_error', 'friedman_mse'],
+                    'splitter': ['best', 'random'],
+                    'max_depth': [None, 5, 10, 20],
+                    'min_samples_split': [2, 5, 10]
+                },
+
+                'RandomForestRegressor': {
+                    'n_estimators': [50, 100, 200],
+                    'max_depth': [None, 5, 10, 20],
+                    'min_samples_split': [2, 5, 10],
+                    'bootstrap': [True, False]
+                },
+
+                'GradientBoostingRegressor': {
+                    'n_estimators': [100, 200],
+                    'learning_rate': [0.01, 0.1, 0.2],
+                    'max_depth': [3, 5, 10]
+                },
+
+                'AdaBoostRegressor': {
+                    'n_estimators': [50, 100, 200],
+                    'learning_rate': [0.01, 0.1, 1.0]
+                },
+
+                'SVR': {
+                    'kernel': ['linear', 'rbf', 'poly'],
+                    'C': [0.1, 1.0, 10.0],
+                    'gamma': ['scale', 'auto']
+                },
+
+                'XGBRegressor': {
+                    'n_estimators': [100, 200],
+                    'learning_rate': [0.01, 0.1, 0.2],
+                    'max_depth': [3, 5, 7],
+                    'subsample': [0.8, 1.0]
+                },
+
+                'CatBoostRegressor': {
+                    'iterations': [100, 200],
+                    'learning_rate': [0.01, 0.05, 0.1],
+                    'depth': [4, 6, 10]
+                }
+        }
+
 
             model_report:dict = evaluate_models(X_train=X_train,
                                                Y_train = Y_train,
                                                X_test=X_test,
                                                Y_test=Y_test,
-                                               models = models) 
+                                               models = models,
+                                               param = params) 
 
 
             best_model_score = max(sorted(model_report.values())) 
