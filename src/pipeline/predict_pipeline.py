@@ -2,6 +2,7 @@ import sys
 import pandas as pd
 from src.exception import CustomException
 from src.utils import load_obj
+import os
 
 from pathlib import Path
 
@@ -11,8 +12,8 @@ class Predict_pipeline:
         pass
     def predict(self,features):
         try:
-            model_path = Path("artifacts/model.pkl")
-            preprocessor_path = Path("artifacts/preprocessor.pkl")
+            model_path = os.path.join("artifacts", "model.pkl")
+            preprocessor_path = os.path.join("artifacts", "preprocessor.pkl")
             model =load_obj(file_name=model_path)
             preprocessor =load_obj(file_name=preprocessor_path)
             data_scaled = preprocessor.transform(features)
